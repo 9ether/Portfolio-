@@ -1,66 +1,104 @@
-<!DOCTYPE html>
+vv<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mxolisi Masango</title>
-    <style>
-        /* Styles from previous code */
-        /* Add any additional styles here */
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metal Slug Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      color: #FFD700;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .screen { text-align: center; max-width: 800px; }
+    .hidden { display: none; }
+    h1, h2 { margin: 0.5em 0; }
+    ul { list-style: none; padding: 0; }
+    li { cursor: pointer; margin: 0.5em 0; }
+    li:hover { color: red; }
+    button { background: #c00; color: white; padding: 0.5em 1em; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #f33; }
+  </style>
 </head>
 <body>
+  <div id="attract" class="screen">
+    <h1 style="font-size:3em;">MXOLISI</h1>
+    <p>MISSION: BUILDING AFRICA’S FUTURE</p>
+    <p>[PRESS SPACE TO START]</p>
+  </div>
 
-<header>
-    <h1>Mxolisi Masango's Portfolio</h1>
-</header>
+  <div id="insertCoin" class="screen hidden">
+    <h1 style="font-size:2.5em;">INSERT COIN</h1>
+  </div>
 
-<nav>
-    <a href="#about">About Me</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-</nav>
+  <div id="menu" class="screen hidden">
+    <h2 style="font-size:2em;">MISSION SELECT</h2>
+    <ul>
+      <li onclick="showScreen('ephepha')">MISSION 1: ePhepha</li>
+      <li onclick="showScreen('accounting')">MISSION 2: AI Accounting Agent</li>
+      <li onclick="showScreen('sentrikasi')">MISSION 3: Sentrikasi IoT</li>
+    </ul>
+    <p id="credits">CREDITS: 0</p>
+  </div>
 
-<section id="about">
-    <h2>About Me</h2>
-    <p>Welcome to my colorful portfolio, I have experience in building high performance computing clusters, managing Linux servers, and implementing identity and access management solutions.
-      I’m looking for opportunities to work as an Azure Administrator, System Engineer, SOC Analyst, or PLatform Engineer.
-      I’m eager to learn new skills, collaborate with other professionals, and contribute to innovative projects.</p>
-</section>
+  <div id="ephepha" class="screen hidden">
+    <h2>MISSION 1 START!</h2>
+    <p><strong>ePhepha</strong> is a gamified learning app designed for Grade 7–9 learners. It makes Mathematics fun and engaging through interactive lessons, national leaderboards, streaks, and short video hints. Learners earn stars to unlock levels and progress in a “Career Mode” inspired by arcade gameplay.</p>
+    <p>The goal: help students build confidence in maths during the crucial years that shape their future success in Matric, while turning study time into playtime.</p>
+    <button onclick="showScreen('menu')">BACK TO MISSION SELECT</button>
+  </div>
 
-<section id="projects">
-    <h2>Projects</h2>
-    <div id="projects-container"></div>
-</section>
+  <div id="accounting" class="screen hidden">
+    <h2>MISSION 2 START!</h2>
+    <p>AI-powered accounting agent simplifying finance for African businesses.</p>
+    <button onclick="showScreen('menu')">BACK TO MISSION SELECT</button>
+  </div>
 
-<section id="contact">
-    <h2>Contact Me</h2>
-    <p>Feel free to reach out to me at giftmxolisimasango@gmail.com/p>
-</section>
+  <div id="sentrikasi" class="screen hidden">
+    <h2>MISSION 3 START!</h2>
+    <p>IoT company creating scalable, African-born solutions with global reach.</p>
+    <button onclick="showScreen('menu')">BACK TO MISSION SELECT</button>
+  </div>
 
-<footer>
-    <p>&copy; 2024 Mxolisi Masango. All rights reserved.</p>
-</footer>
+  <script>
+    let screen = "attract";
+    let credits = 0;
+    let blinkInterval;
 
-<script>
-    // Fetch GitHub repositories using GitHub API
-    fetch('https://api.github.com/users/9ether/repos')
-        .then(response => response.json())
-        .then(data => {
-            const projectsContainer = document.getElementById('projects-container');
-            data.forEach(repo => {
-                const projectDiv = document.createElement('div');
-                projectDiv.classList.add('project');
-                projectDiv.innerHTML = `
-                    <h3>${repo.name}</h3>
-                    <p>${repo.description ? repo.description : 'No description provided.'}</p>
-                    <a href="${repo.html_url}" target="_blank">View on GitHub</a>
-                `;
-                projectsContainer.appendChild(projectDiv);
-            });
-        })
-        .catch(error => console.error('Error fetching GitHub repositories:', error));
-</script>
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      screen = id;
+    }
 
+    function startGame() {
+      credits++;
+      document.getElementById("credits").innerText = "CREDITS: " + credits;
+      showScreen("menu");
+    }
+
+    function toggleAttract() {
+      if (screen === "attract") {
+        showScreen("insertCoin");
+      } else if (screen === "insertCoin") {
+        showScreen("attract");
+      }
+    }
+
+    blinkInterval = setInterval(() => {
+      if (screen === "attract" || screen === "insertCoin") toggleAttract();
+    }, 2000);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && (screen === "attract" || screen === "insertCoin")) {
+        startGame();
+      }
+    });
+  </script>
 </body>
 </html>
